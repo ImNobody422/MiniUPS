@@ -1,0 +1,39 @@
+{% extends 'myUPS/base.html' %}
+{% block title %}track{% endblock %}
+{% block track_active %}active{% endblock %}
+
+{% block body%}
+<div class="container-fluid" style="margin-top:200px;margin-right:100px;margin-left: 500px">
+    <div>
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 align="center">Enter your Package No. Here!</h3>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 10px">{{ message }}</p>
+                    {% endfor %}{% endif %}
+                    <form class="form-horizontal" role="form" action="{% url 'track_pkg' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-3">
+                                <input id="package_number" maxlength="30" name="package_number" type="text">
+                            </div>
+                        </div>
+                      
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <button type="submit" class="btn btn-success">Track</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    Don't have an account? <a href="{% url 'register'%}">Click here</a > to register.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

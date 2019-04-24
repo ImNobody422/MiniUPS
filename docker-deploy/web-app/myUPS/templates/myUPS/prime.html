@@ -1,0 +1,69 @@
+{% extends 'myUPS/base.html' %}
+{% load static %}
+{% block title %}
+    Become Prime
+{% endblock %}
+
+{% block body %}
+    
+    {% if pkgs %}
+    <h1 align = "center">Become Prime!</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <center><p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 10px">{{ message }}</p></center>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'edit_dest' %}">
+    <table border="3" width="1300px" height="80px" cellpadding="20px" cellspacing="100px" align = "center" style = "background-color: aliceblue">
+        <thead>
+        <tr>
+            <th><center>package number</center></th>
+            <th><center>warehouse id</center></th>
+            <th><center>warehose location</center></th>
+            <th><center>destination location</center></th>
+            <th><center>current_status</center></th>
+            <th><center>pick up time</center></th>
+            <th><center>loaded time</center></th>
+            <th><center>delivered time</center></th><!--check if need to add sharer's destination-->
+            <th><center>user</center></th>
+            <th><center>change destination</center></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pkg in pkgs %}
+            <tr>
+                <th><center>{{ pkg.package_id }}</center></th>
+                <th><center>{{ pkg.wh_id }}</center></th>
+                <th><center>{{ pkg.wh_addr_x}} , {{pkg.wh_addr_y }}</center></th>
+                <th><center>{{ pkg.dest_x }} , {{pkg.dest_y }}</center></th>
+                <th><center>{{ pkg.get_cur_status_display }}</center></th>
+                <th><center>{{ pkg.ready_for_pickup_time }}</center></th>
+                <th><center>{{ pkg.load_time }}</center></th>
+                <th><center>{{ pkg.delivered_time }}</center></th>
+                <th><center>{{ pkg.user.user.username }}</center></th>
+                <th>
+                    <center>
+                <label>
+                        <input type="radio" name="package_id" value="{{ pkg.package_id }}">
+                     </label>
+                    </center>
+                     </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <center>
+        <button  class="btn btn-success" value="{{pkg.package_id}}"><span class="glyphicon glyphicon-plus"></span>&nbsp; change destination</button>
+        </center>
+    </form>
+    {% else %}
+    {% if messages %}
+        {% for message in messages %}
+            <center><p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 10px">{{ message }}</p></center>
+        {% endfor %}
+    {% endif %}
+    <center><h1>No Package Founded!</h1></center>
+    {% endif %}
+
+
+{% endblock %}
